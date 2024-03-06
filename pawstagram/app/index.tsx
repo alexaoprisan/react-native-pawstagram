@@ -1,32 +1,22 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Text } from 'react-native';
-import LoginButton from './_components/LoginButton';
+import { SafeAreaView, StyleSheet, Text } from 'react-native';
 import Navigation from './_components/Navigation';
-import SignUpButton from './_components/SignUpButton';
+import AuthScreen from './screens/AuthScreen';
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track user authentication
 
-  const handleSignUpPress = () => {
-    // Logic to handle sign-up
-    setIsLoggedIn(true); // Update isLoggedIn state after successful sign-up
-  };
-
-  const handleLoginPress = () => {
-    // Logic to handle login
-    setIsLoggedIn(true); // Update isLoggedIn state after successful login
+  // Function to handle successful login or sign-up
+  const handleAuthentication = () => {
+    setIsLoggedIn(true);
   };
 
   return (
-    <SafeAreaView>
-      {!isLoggedIn ? (
-        <>
-          <SignUpButton onPress={handleSignUpPress} />
-          <LoginButton onPress={handleLoginPress} />
-          <Text>Hello</Text>
-        </>
+    <SafeAreaView style={{ flex: 1 }}>
+      {isLoggedIn ? (
+        <Navigation /> // Render the BottomNavigation component if user is authenticated
       ) : (
-        <Navigation />
+        <AuthScreen onAuthentication={handleAuthentication} /> // Render authentication screen if user is not authenticated
       )}
     </SafeAreaView>
   );
