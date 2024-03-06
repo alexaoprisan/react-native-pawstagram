@@ -4,7 +4,8 @@ import Navigation from './_components/Navigation';
 
 export default function HomeLayout() {
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
+      <Header label="" />
       <Navigation />
     </SafeAreaView>
   );

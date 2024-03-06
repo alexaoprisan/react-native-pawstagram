@@ -33,7 +33,7 @@ const screenOptions = ({ route }) => ({
 
 export default function Navigation() {
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       <NavigationContainer independent={true}>
         <Tab.Navigator
           initialRouteName={homeName}
