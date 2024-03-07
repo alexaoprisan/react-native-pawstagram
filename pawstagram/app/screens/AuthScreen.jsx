@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,6 +20,18 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 5,
+    height: 60,
+    fontSize: 18,
   },
 });
 
@@ -43,10 +55,6 @@ const AuthScreen = ({ onAuthentication }) => {
 
   return (
     <View style={styles.container}>
-      {/* <Image
-        source={require('../../../images/logo.png')}
-        style={{ width: 200, height: 200 }} // Specify the width and height of the image
-      /> */}
       <Text style={styles.title}>Pawstagram</Text>
       <TextInput
         style={styles.input}
@@ -61,8 +69,10 @@ const AuthScreen = ({ onAuthentication }) => {
         value={password}
         onChangeText={setPassword}
       />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Sign Up" onPress={handleSignup} />
+      <View style={styles.buttonContainer}>
+        <Button title="Login" onPress={handleLogin} style={styles.button} />
+        <Button title="Sign Up" onPress={handleSignup} style={styles.button} />
+      </View>
     </View>
   );
 };
