@@ -1,18 +1,15 @@
-import { Sql } from 'postgres';
 import { Session } from '../migrations/00001-createTableSession';
+import { sql } from './connect';
 
-export const getSessionByUserId = async (
-  sql: Sql,
-  userId: number,
-): Promise<Session | null> => {
+export const getSession = async () => {
   const session = await sql<Session[]>`
     SELECT
       *
     FROM
-      session
-    WHERE
-      user_id = ${userId}
+      users
+    ORDER BY
+      id
   `;
 
-  return session[0] || null;
+  return session;
 };

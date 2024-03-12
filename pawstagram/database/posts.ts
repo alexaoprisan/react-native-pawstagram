@@ -1,18 +1,15 @@
-import { Sql } from 'postgres';
 import { Post } from '../migrations/00002-createTablePosts';
+import { sql } from './connect';
 
-export const getPostById = async (
-  sql: Sql,
-  postId: number,
-): Promise<Post | null> => {
-  const post = await sql<Post[]>`
+export const getPosts = async () => {
+  const posts = await sql<Post[]>`
     SELECT
       *
     FROM
-      posts
-    WHERE
-      id = ${postId}
+      users
+    ORDER BY
+      id
   `;
 
-  return post[0] || null;
+  return posts;
 };

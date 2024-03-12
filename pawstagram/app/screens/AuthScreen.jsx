@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import SignupPage from './SignUpScreen';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,6 +12,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     marginBottom: 20,
+    fontWeight: 'bold',
   },
   input: {
     width: '100%',
@@ -33,46 +35,71 @@ const styles = StyleSheet.create({
     height: 60,
     fontSize: 18,
   },
+  image: {
+    width: 150,
+    height: 150,
+    resizeMode: 'contain',
+  },
 });
 
 const AuthScreen = ({ onAuthentication }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showSignup, setShowSignup] = useState(false);
 
   const handleLogin = () => {
-    // Simulate authentication logic (replace with your actual authentication logic)
     if (username === 'example' && password === 'password') {
-      onAuthentication(); // Call the onAuthentication function passed from the parent component
+      onAuthentication();
     } else {
       alert('Invalid username or password');
     }
   };
 
   const handleSignup = () => {
-    // Simulate sign-up logic (replace with your actual sign-up logic)
-    alert('Sign up functionality is not implemented yet');
+    // Toggle the visibility of the SignupPage
+    setShowSignup(true);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pawstagram</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-      />
-      <View style={styles.buttonContainer}>
-        <Button title="Login" onPress={handleLogin} style={styles.button} />
-        <Button title="Sign Up" onPress={handleSignup} style={styles.button} />
-      </View>
+      {!showSignup && (
+        <>
+          <Image
+            style={styles.image}
+            source={{
+              uri: 'https://seeklogo.com/images/P/paw-paw-logo-9611469C33-seeklogo.com.png',
+            }}
+          />
+          <Text style={styles.title}>Pawstagram</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+          <View style={styles.buttonContainer}>
+            <Button title="Login" onPress={handleLogin} style={styles.button} />
+            <Button
+              title="Sign Up"
+              onPress={handleSignup}
+              style={styles.button}
+            />
+          </View>
+        </>
+      )}
+      {/* Conditional rendering of SignupPage */}
+      {showSignup && (
+        <SignupPage
+          onClose={() => setShowSignup(false)} // Pass a callback to handle closing SignupPage
+        />
+      )}
     </View>
   );
 };

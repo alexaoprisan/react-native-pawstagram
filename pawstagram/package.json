@@ -8,7 +8,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "start": "expo start",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "migrate": "ley --require tsx/cjs"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
