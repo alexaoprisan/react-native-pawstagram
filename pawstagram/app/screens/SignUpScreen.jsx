@@ -43,7 +43,7 @@ const SignupPage = () => {
   };
 
   const handleGoBack = () => {
-    navigation.goBack();
+    navigation.navigate('AuthScreen');
   };
 
   return (

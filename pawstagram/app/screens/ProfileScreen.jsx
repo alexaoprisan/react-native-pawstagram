@@ -1,12 +1,166 @@
-import React from 'react';
-import { Text, View } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useState } from 'react';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
-export default function ProfileScreen({ navigation }) {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  profileHeader: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 10,
+  },
+  profileDescription: {
+    fontSize: 14,
+    color: 'gray',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  username: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#00CED1',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  postGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  postImage: {
+    width: '30%',
+    aspectRatio: 1,
+    marginBottom: 10,
+  },
+  optionsContainer: {
+    position: 'absolute',
+    top: 120, // Adjust this value as needed
+    left: 20, // Adjust this value as needed
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  option: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  optionText: {
+    fontSize: 16,
+    color: '#333',
+  },
+});
+
+const ProfileScreen = ({ navigation }) => {
+  const [showOptions, setShowOptions] = useState(false);
+
+  const handleImagePress = () => {
+    setShowOptions(true);
+  };
+
+  const handleOptionPress = async (option) => {
+    setShowOptions(false);
+    if (option === 'Open Gallery') {
+      // Logic to open the phone gallery
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        console.log(result.uri);
+        // Handle the selected image
+      }
+    } else if (option === 'Upload Picture') {
+      // Logic to handle picture upload
+      // For example, navigate to a screen for picture upload
+      navigation.navigate('UploadScreen');
+    }
+  };
+
+  // Sample data for profile posts
+  const profilePosts = [
+    { id: 1, imageUrl: 'https://via.placeholder.com/200' },
+    { id: 2, imageUrl: 'https://via.placeholder.com/200' },
+    { id: 3, imageUrl: 'https://via.placeholder.com/200' },
+    // Add more posts as needed
+  ];
+
   return (
-    <View>
-      <Text onPress={() => alert('This is the Profile Screen.')}>
-        Profilescreen
-      </Text>
+    <View style={styles.container}>
+      {/* Profile header */}
+      <View style={styles.profileHeader}>
+        <TouchableOpacity onPress={handleImagePress}>
+          <Image
+            source={{ uri: 'https://via.placeholder.com/100' }} // Replace with actual profile picture URL
+            style={styles.profileImage}
+          />
+        </TouchableOpacity>
+        <Text style={styles.username}>Username</Text>
+        <Text style={styles.profileDescription}>
+          Profile Description Goes Here
+        </Text>
+      </View>
+
+      {/* Profile posts grid */}
+      <View style={styles.postGrid}>
+        {profilePosts.map((post) => (
+          <TouchableOpacity key={post.id} onPress={handleImagePress}>
+            <Image source={{ uri: post.imageUrl }} style={styles.postImage} />
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Options modal */}
+      {showOptions && (
+        <View style={styles.optionsContainer}>
+          <TouchableOpacity
+            style={styles.option}
+            onPress={() => handleOptionPress('Open Gallery')}
+          >
+            <Text style={styles.optionText}>Open Gallery</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.option}
+            onPress={() => handleOptionPress('Upload Picture')}
+          >
+            <Text style={styles.optionText}>Upload Picture</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.option}
+            onPress={() => setShowOptions(false)}
+          >
+            <Text style={styles.optionText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
-}
+};
+
+export default ProfileScreen;

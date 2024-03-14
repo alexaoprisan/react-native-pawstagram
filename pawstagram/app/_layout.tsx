@@ -26,11 +26,11 @@ export default function HomeLayout() {
 
   return (
     <SafeAreaView className="flex-1">
-      {isLoggedIn ? (
-        <Navigation /> // Render the BottomNavigation component if user is authenticated
-      ) : (
+      {/* {isLoggedIn ? ( */}
+      <Navigation />
+      {/* ) : (
         <AuthScreen onAuthentication={handleAuthentication} /> // Render authentication screen if user is not authenticated
-      )}
+      )} */}
     </SafeAreaView>
   );
 }

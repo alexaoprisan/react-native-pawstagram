@@ -32,6 +32,9 @@ dependencies:
   expo-constants:
     specifier: ~15.4.5
     version: 15.4.5(expo@50.0.8)
+  expo-image-picker:
+    specifier: ^14.7.1
+    version: 14.7.1(expo@50.0.8)
   expo-linking:
     specifier: ~6.2.2
     version: 6.2.2(expo@50.0.8)
@@ -5439,6 +5442,23 @@ packages:
     dependencies:
       expo: 50.0.8(@babel/core@7.24.0)(@react-native/babel-preset@0.73.21)
       fontfaceobserver: 2.3.0
+    dev: false
+
+  /expo-image-loader@4.6.0(expo@50.0.8):
+    resolution: {integrity: sha512-RHQTDak7/KyhWUxikn2yNzXL7i2cs16cMp6gEAgkHOjVhoCJQoOJ0Ljrt4cKQ3IowxgCuOrAgSUzGkqs7omj8Q==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 50.0.8(@babel/core@7.24.0)(@react-native/babel-preset@0.73.21)
+    dev: false
+
+  /expo-image-picker@14.7.1(expo@50.0.8):
+    resolution: {integrity: sha512-ILQVOJgI3aEzrDmCFGDPtpAepYkn8mot8G7vfQ51BfFdQbzL6N3Wm1fS/ofdWlAZJl/qT2DwaIh5xYmf3SyGZA==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 50.0.8(@babel/core@7.24.0)(@react-native/babel-preset@0.73.21)
+      expo-image-loader: 4.6.0(expo@50.0.8)
     dev: false
 
   /expo-keep-awake@12.8.2(expo@50.0.8):
