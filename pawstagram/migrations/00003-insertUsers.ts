@@ -5,7 +5,7 @@ const testUsers = [
     id: 1,
     userName: 'Tofu2023',
     passwordHash: 'password',
-    birthDate: '05.03.2023'
+    birthDate: '05.03.2023',
     email: 'tofu@email.com',
   },
 ];
@@ -19,7 +19,7 @@ export async function up(sql: Sql) {
       ${testUser.userName},
       ${testUser.passwordHash},
       ${testUser.birthDate},
-    ${testUser.email}
+      ${testUser.email}
     )
   `;
   }

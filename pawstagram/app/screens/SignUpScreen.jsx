@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,25 +22,40 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  image: {
+    width: 150,
+    height: 150,
+    resizeMode: 'contain',
+  },
+  buttonContainer: {
+    marginTop: 70,
   },
 });
 
-const SignupPage = () => {
+export default function SignupPage() {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [passwordHash, setPasswordHash] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [email, setEmail] = useState('');
   const navigation = useNavigation();
 
-  const handleSignup = () => {
+  async function handleSignup() {
     const userData = {
       username,
-      password,
+      passwordHash,
       birthdate,
       email,
     };
-    alert(JSON.stringify(userData));
-  };
+    const signUpRequest = await fetch(`/api/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData),
+    }).catch(console.error);
+    const signUpResponse = await signUpRequest.json();
+    console.log('signup:', signUpResponse);
+  }
 
   const handleGoBack = () => {
     navigation.navigate('AuthScreen');
@@ -48,6 +63,12 @@ const SignupPage = () => {
 
   return (
     <View style={styles.container}>
+      <Image
+        style={styles.image}
+        source={{
+          uri: 'https://seeklogo.com/images/P/paw-paw-logo-9611469C33-seeklogo.com.png',
+        }}
+      />
       <Text style={styles.title}>Sign Up</Text>
       <TextInput
         style={styles.input}
@@ -59,8 +80,8 @@ const SignupPage = () => {
         style={styles.input}
         placeholder="Password"
         secureTextEntry
-        value={password}
-        onChangeText={setPassword}
+        value={passwordHash}
+        onChangeText={setPasswordHash}
       />
       <TextInput
         style={styles.input}
@@ -76,9 +97,10 @@ const SignupPage = () => {
         onChangeText={setEmail}
       />
       <Button title="Sign Up" onPress={handleSignup} />
-      <Button title="Go back to login" onPress={handleGoBack} />
+
+      <View style={styles.buttonContainer}>
+        <Button title="Go back to login" onPress={handleGoBack} />
+      </View>
     </View>
   );
-};
-
-export default SignupPage;
+}

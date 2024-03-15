@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Dimensions,
   FlatList,
   StyleSheet,
   Text,
@@ -7,31 +8,35 @@ import {
   View,
 } from 'react-native';
 
+const { width: screenWidth } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
   },
   userContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 5,
   },
   username: {
     fontWeight: 'bold',
     color: '#00CED1',
+    marginTop: 5,
   },
   datestamp: {
     fontSize: 12,
     color: 'gray',
-    marginLeft: 'auto',
+    marginTop: 5,
+  },
+  postImage: {
+    width: '100%',
+    height: '100%', // Ensure the image fills the container
   },
   postContainer: {
-    width: '100%',
-    aspectRatio: 1,
+    width: screenWidth - 16, // Match screen width, subtracting padding
+    aspectRatio: 1, // Make it a square
     marginBottom: 10,
     borderWidth: 1,
     borderColor: '#d3d3d3',
@@ -71,8 +76,10 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.username}>{item.username}</Text>
         <Text style={styles.datestamp}>{item.date}</Text>
       </View>
-      <View style={[styles.postContainer, { width: windowWidth - 20 }]}>
-        <Text style={styles.description}>{item.post}</Text>
+      <View style={styles.postContainer}>
+        <Text style={styles.description}>{item.picture}</Text>
+
+        {/* Moved inside post container */}
       </View>
       <Text style={styles.description}>{item.description}</Text>
     </View>

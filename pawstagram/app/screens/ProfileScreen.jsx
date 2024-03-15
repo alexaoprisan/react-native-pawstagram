@@ -1,13 +1,15 @@
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import {
-  FlatList,
+  Dimensions,
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -40,11 +42,11 @@ const styles = StyleSheet.create({
   postGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   postImage: {
-    width: '30%',
     aspectRatio: 1,
+    width: '50%',
     marginBottom: 10,
   },
   optionsContainer: {
@@ -77,8 +79,10 @@ const styles = StyleSheet.create({
 const ProfileScreen = ({ navigation }) => {
   const [showOptions, setShowOptions] = useState(false);
 
-  const handleImagePress = () => {
-    setShowOptions(true);
+  const handleImagePress = (isProfilePicture) => {
+    if (isProfilePicture) {
+      setShowOptions(true); // Show options only if it's the profile picture
+    }
   };
 
   const handleOptionPress = async (option) => {
@@ -111,13 +115,17 @@ const ProfileScreen = ({ navigation }) => {
     // Add more posts as needed
   ];
 
+  // Calculate the width of each post image based on the number of images per row
+  const imagesPerRow = 3;
+  const imageWidth = (windowWidth - 40) / imagesPerRow; // Subtract padding
+
   return (
     <View style={styles.container}>
       {/* Profile header */}
       <View style={styles.profileHeader}>
-        <TouchableOpacity onPress={handleImagePress}>
+        <TouchableOpacity onPress={() => handleImagePress(true)}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/100' }} // Replace with actual profile picture URL
+            source={{ uri: 'https://via.placeholder.com/100' }}
             style={styles.profileImage}
           />
         </TouchableOpacity>
@@ -130,8 +138,14 @@ const ProfileScreen = ({ navigation }) => {
       {/* Profile posts grid */}
       <View style={styles.postGrid}>
         {profilePosts.map((post) => (
-          <TouchableOpacity key={post.id} onPress={handleImagePress}>
-            <Image source={{ uri: post.imageUrl }} style={styles.postImage} />
+          <TouchableOpacity
+            key={post.id}
+            onPress={() => handleImagePress(false)}
+          >
+            <Image
+              source={{ uri: post.imageUrl }}
+              style={[styles.postImage, { width: imageWidth }]}
+            />
           </TouchableOpacity>
         ))}
       </View>

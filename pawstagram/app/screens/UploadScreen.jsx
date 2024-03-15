@@ -93,7 +93,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Add Image:</Text>
+      <Text style={styles.header}>Add your pawtastic image here!</Text>
 
       {/* Button to choose an image */}
       <TouchableOpacity style={styles.button} onPress={pickImage}>

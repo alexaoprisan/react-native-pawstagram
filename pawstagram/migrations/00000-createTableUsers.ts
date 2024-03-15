@@ -2,20 +2,20 @@ import { Sql } from 'postgres';
 
 export type User = {
   id: number;
-  username: string;
-  password_hash: string;
+  userName: string;
+  passwordHash: string;
+  birthDate: number;
   email: string;
-  birthdate: Date | null;
 };
 
 export async function up(sql: Sql) {
   await sql`
     CREATE TABLE users (
-      id SERIAL PRIMARY key,
-      username VARCHAR(50) NOT NULL,
-      password_hash VARCHAR(255) NOT NULL,
-      email VARCHAR(100) UNIQUE NOT NULL,
-      birthdate DATE
+      id integer PRIMARY key generated always AS identity,
+      userName varchar(30) NOT NULL,
+      password_hash varchar(60) NOT NULL,
+      birthDate DATE NOT NULL,
+      email varchar(40) NOT NULL
     )
   `;
 }

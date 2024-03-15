@@ -38,7 +38,8 @@
     "react-native-screens": "~3.29.0",
     "react-native-vector-icons": "^10.0.3",
     "react-native-web": "~0.19.6",
-    "tsx": "^4.7.1"
+    "tsx": "^4.7.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

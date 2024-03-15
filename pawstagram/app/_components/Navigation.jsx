@@ -8,7 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import UploadScreen from '../screens/UploadScreen';
 
-// // Screen namesr
+// // Screen names
 const homeName = 'Home';
 const uploadName = 'Upload';
 const profileName = 'Profile';
@@ -18,7 +18,7 @@ const Tab = createBottomTabNavigator();
 const screenOptions = ({ route }) => ({
   tabBarIcon: ({ focused, color, size }) => {
     let iconName;
-    let iconColor = focused ? '#00CED1' : color;
+    let iconColor = focused ? '#00CED1' : 'black';
 
     if (route.name === homeName) {
       iconName = focused ? 'home-outline' : 'home-outline';
@@ -29,6 +29,12 @@ const screenOptions = ({ route }) => ({
     }
 
     return <Ionicons name={iconName} size={size + 5} color={iconColor} />;
+  },
+  tabBarLabel: ({ focused }) => {
+    let labelColor = focused ? '#00CED1' : 'black'; // Text color when selected or not
+    return (
+      <Text style={{ color: labelColor, fontSize: 10 }}>{route.name}</Text>
+    );
   },
 });
 
@@ -49,9 +55,9 @@ export default function Navigation() {
                   Pawstagram
                 </Text>
               ),
-              headerTitleAlign: 'center', // Center align the header title
+              headerTitleAlign: 'center',
               headerStyle: {
-                height: 70, // Adjust the height as needed
+                height: 70,
               },
             }}
           />
@@ -64,9 +70,9 @@ export default function Navigation() {
                   Pawstagram
                 </Text>
               ),
-              headerTitleAlign: 'center', // Center align the header title
+              headerTitleAlign: 'center',
               headerStyle: {
-                height: 70, // Adjust the height as needed
+                height: 70,
               },
             }}
           />
@@ -79,9 +85,9 @@ export default function Navigation() {
                   Pawstagram
                 </Text>
               ),
-              headerTitleAlign: 'center', // Center align the header title
+              headerTitleAlign: 'center',
               headerStyle: {
-                height: 70, // Adjust the height as needed
+                height: 70, // Adjust header height
               },
             }}
           />

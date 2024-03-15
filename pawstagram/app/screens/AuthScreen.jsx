@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import { z } from 'zod';
 import SignupPage from './SignUpScreen';
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -42,18 +48,33 @@ const styles = StyleSheet.create({
   },
 });
 
-const AuthScreen = ({ onAuthentication }) => {
+export default function Login() {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [passwordHash, setPasswordHash] = useState('');
   const [showSignup, setShowSignup] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isError, setIsError] = useState('');
 
-  const handleLogin = () => {
-    if (username === 'example' && password === 'password') {
-      onAuthentication();
+  async function handleLogin() {
+    //
+    const validateLogin = loginSchema.safeParse({ username, passwordHash });
+    if (!validateLogin.success) {
+      setErrorMessage('Username or password invalid');
+      setIsError(true);
     } else {
-      alert('Invalid username or password');
+      const userData = {
+        username,
+        passwordHash,
+      };
+      const loginRequest = await fetch(`/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      }).catch(console.error);
+      const loginResponse = await loginRequest.json();
+      console.log('signup:', loginResponse);
     }
-  };
+  }
 
   const handleSignup = () => {
     // Toggle the visibility of the SignupPage
@@ -81,8 +102,8 @@ const AuthScreen = ({ onAuthentication }) => {
             style={styles.input}
             placeholder="Password"
             secureTextEntry
-            value={password}
-            onChangeText={setPassword}
+            value={passwordHash}
+            onChangeText={setPasswordHash}
           />
           <View style={styles.buttonContainer}>
             <Button title="Login" onPress={handleLogin} style={styles.button} />
@@ -102,6 +123,4 @@ const AuthScreen = ({ onAuthentication }) => {
       )}
     </View>
   );
-};
-
-export default AuthScreen;
+}
