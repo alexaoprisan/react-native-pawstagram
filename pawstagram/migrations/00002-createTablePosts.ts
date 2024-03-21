@@ -12,7 +12,7 @@ export async function up(sql: Sql) {
   await sql`
     CREATE TABLE posts (
       id SERIAL PRIMARY key,
-      user_id INT REFERENCES users(id),
+      user_id INTEGER references users(id) ON DELETE cascade,
       image_url VARCHAR(255) NOT NULL,
       image_description TEXT,
       date TIMESTAMP DEFAULT CURRENT_TIMESTAMP

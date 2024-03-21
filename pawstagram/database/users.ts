@@ -39,20 +39,20 @@ export const createUser = async (
         )
       RETURNING
         id,
-        email
+        userName
     `;
   return user;
 };
 
-export const getUserByEmail = async (email: string) => {
+export const getUserByUsername = async (userName: string) => {
   const [user] = await sql<User[]>`
     SELECT
       id,
-      email
+      userName
     FROM
       users
     WHERE
-      email = ${email}
+      userName = ${userName}
   `;
   return user;
 };

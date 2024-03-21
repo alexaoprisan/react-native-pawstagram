@@ -6,10 +6,23 @@ export const getPosts = async () => {
     SELECT
       *
     FROM
-      users
-    ORDER BY
+      posts
+    WHERE
       id
-  `;
+        `;
 
   return posts;
+};
+
+export const gePostsById = async (id: string) => {
+  const [post] = await sql<Post[]>`
+    SELECT
+      *
+    FROM
+      posts
+    WHERE
+      id = ${id}
+  `;
+
+  return post;
 };
