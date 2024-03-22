@@ -2,10 +2,12 @@ import { router, useNavigation } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Image,
+  Keyboard,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function SignupPage() {
+export default function Signup() {
   const [username, setUsername] = useState('');
   const [passwordHash, setPasswordHash] = useState('');
   const [birthdate, setBirthdate] = useState('');
@@ -97,36 +99,38 @@ export default function SignupPage() {
       />
       <Text style={styles.title}>Sign Up</Text>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <TextInput
-          style={styles.input}
-          accessibilityLabel="username input field"
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
-        />
-        <TextInput
-          style={styles.input}
-          accessibilityLabel="password input field"
-          placeholder="Password"
-          secureTextEntry
-          value={passwordHash}
-          onChangeText={setPasswordHash}
-        />
-        <TextInput
-          style={styles.input}
-          accessibilityLabel="birthdate input field"
-          placeholder="Birthdate (MM/DD/YYYY)"
-          value={birthdate}
-          onChangeText={setBirthdate}
-        />
-        <TextInput
-          style={styles.input}
-          accessibilityLabel="email input field"
-          placeholder="Email"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
+        <View>
+          <TextInput
+            style={styles.input}
+            accessibilityLabel="username input field"
+            placeholder="Username"
+            value={username}
+            onChangeText={setUsername}
+          />
+          <TextInput
+            style={styles.input}
+            accessibilityLabel="password input field"
+            placeholder="Password"
+            secureTextEntry
+            value={passwordHash}
+            onChangeText={setPasswordHash}
+          />
+          <TextInput
+            style={styles.input}
+            accessibilityLabel="birthdate input field"
+            placeholder="Birthdate (MM/DD/YYYY)"
+            value={birthdate}
+            onChangeText={setBirthdate}
+          />
+          <TextInput
+            style={styles.input}
+            accessibilityLabel="email input field"
+            placeholder="Email"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
+          />
+        </View>
       </TouchableWithoutFeedback>
       <Pressable
         onPress={handleSignup}

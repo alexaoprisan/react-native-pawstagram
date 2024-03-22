@@ -1,20 +1,21 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import { Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import AuthScreen from '../(auth)/login';
-// Screens
+import Login from '../(auth)/login';
+// screens
 import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
 import UploadScreen from './UploadScreen';
 
-// Screen names
 const homeName = 'Home';
 const uploadName = 'Upload';
 const profileName = 'Profile';
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 const screenOptions = ({ route }) => ({
   tabBarIcon: ({ focused, color, size }) => {
@@ -39,71 +40,62 @@ const screenOptions = ({ route }) => ({
   },
 });
 
-export default function TabNavigator() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleAuthentication = () => {
-    setIsLoggedIn(true);
-  };
-
+export default function AppNavigator() {
   return (
-    <SafeAreaView className="flex-1">
-      {isLoggedIn ? (
-        <NavigationContainer independent={true}>
-          <Tab.Navigator
-            initialRouteName={homeName}
-            screenOptions={screenOptions}
-          >
-            <Tab.Screen
-              name={homeName}
-              component={HomeScreen}
-              options={{
-                headerTitle: () => (
-                  <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                    Pawstagram
-                  </Text>
-                ),
-                headerTitleAlign: 'center',
-                headerStyle: {
-                  height: 70,
-                },
-              }}
-            />
-            <Tab.Screen
-              name={uploadName}
-              component={UploadScreen}
-              options={{
-                headerTitle: () => (
-                  <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                    Pawstagram
-                  </Text>
-                ),
-                headerTitleAlign: 'center',
-                headerStyle: {
-                  height: 70,
-                },
-              }}
-            />
-            <Tab.Screen
-              name={profileName}
-              component={ProfileScreen}
-              options={{
-                headerTitle: () => (
-                  <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                    Pawstagram
-                  </Text>
-                ),
-                headerTitleAlign: 'center',
-                headerStyle: {
-                  height: 70, // Adjust header height
-                },
-              }}
-            />
-          </Tab.Navigator>
-        </NavigationContainer>
-      ) : (
-        <AuthScreen /> // Render authentication screen if user is not authenticated
-      )}
-    </SafeAreaView>
+    <NavigationContainer independent={true}>
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Main" component={MainNavigator} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function MainNavigator() {
+  return (
+    <Tab.Navigator initialRouteName={homeName} screenOptions={screenOptions}>
+      <Tab.Screen
+        name={homeName}
+        component={HomeScreen}
+        options={{
+          headerTitle: () => (
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Pawstagram</Text>
+          ),
+          headerTitleAlign: 'center',
+          headerStyle: {
+            height: 70,
+          },
+        }}
+      />
+      <Tab.Screen
+        name={uploadName}
+        component={UploadScreen}
+        options={{
+          headerTitle: () => (
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Pawstagram</Text>
+          ),
+          headerTitleAlign: 'center',
+          headerStyle: {
+            height: 70,
+          },
+        }}
+      />
+      <Tab.Screen
+        name={profileName}
+        component={ProfileScreen}
+        options={{
+          headerTitle: () => (
+            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Pawstagram</Text>
+          ),
+          headerTitleAlign: 'center',
+          headerStyle: {
+            height: 70, // Adjust header height
+          },
+        }}
+      />
+    </Tab.Navigator>
   );
 }

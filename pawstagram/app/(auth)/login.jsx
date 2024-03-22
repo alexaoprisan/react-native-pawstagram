@@ -119,7 +119,7 @@ export default function Login() {
       }
 
       if (response.ok) {
-        router.navigate('../HomeScreen'); // Navigate to HomeScreen using React Navigation
+        navigation.navigate('Main'); // Navigate to HomeScreen using React Navigation
       }
     }
   }

@@ -1,11 +1,9 @@
 to do:
 
-Building your Pastagram app in React Native involves several steps. Below is a step-by-step guide to help you create the app:
-
 Step 1: Setup
 Install React Native and Expo CLI.
-Create a new project using Expo CLI: expo init Pastagram.
-Navigate to your project directory: cd Pastagram.
+Create a new project using Expo CLI: expo init Pawstagram.
+Navigate to your project directory: cd Pawstagram.
 
 Step 2: Design UI
 Design the layout for your app, including the bottom navigation bar with three tabs.
@@ -41,6 +39,7 @@ Step 8: Enhancements
 Implement following functionality to show posts from followed users.
 Implement accessibility features such as alt text for images.
 Integrate location-based features using Mapbox for geolocation and address autocomplete.
+
 Step 9: Testing and Deployment
 Test your app thoroughly on various devices and screen sizes.
 Address any bugs or issues.
