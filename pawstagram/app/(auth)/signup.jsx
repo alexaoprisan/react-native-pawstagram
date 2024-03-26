@@ -1,4 +1,5 @@
-import { router, useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Image,
@@ -10,6 +11,14 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import { z } from 'zod';
+
+const signupSchema = z.object({
+  email: z.string().email(),
+  passwordHash: z.string().min(8),
+  username: z.string(),
+  birthdate: z.string(),
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -66,22 +75,46 @@ export default function Signup() {
   const [passwordHash, setPasswordHash] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [email, setEmail] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState('');
   const navigation = useNavigation();
 
   async function handleSignup() {
     const userData = {
-      username,
+      username, // Use 'username' instead of 'userName'
       passwordHash,
       birthdate,
       email,
     };
-    const signUpRequest = await fetch(`/api/signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData),
-    }).catch(console.error);
-    const signUpResponse = await signUpRequest.json();
-    console.log('signup:', signUpResponse);
+    const validatedNewUser = signupSchema.safeParse(userData);
+    console.log('validated signup:', validatedNewUser);
+    console.log('userData:', userData);
+
+    if (!validatedNewUser.success) {
+      setErrorMessage('Username already taken');
+      setError(true);
+    } else {
+      const response = await fetch(`/api/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      }).catch(console.error);
+      const data = await response.json();
+      console.log('signup:', data);
+
+      if (!response.ok) {
+        setErrorMessage(data.errors[0].message);
+        setError(true);
+      }
+
+      if ('errors' in data) {
+        setError(data.errors);
+        return;
+      }
+      if (response.ok) {
+        router.navigate('/login'); // Navigate to Login using React Navigation
+      }
+    }
   }
 
   const handleGoBack = () => {

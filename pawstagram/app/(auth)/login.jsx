@@ -1,4 +1,5 @@
-import { router, useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Image,
@@ -10,7 +11,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';

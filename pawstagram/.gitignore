@@ -36,3 +36,6 @@ yarn-error.*
 *.tsbuildinfo
 
 .eslintcache
+
+# Ignore the file named cloudinarysecrets
+cloudinarysecrets

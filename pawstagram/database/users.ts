@@ -24,7 +24,7 @@ export const getUsers = async () => {
 export const createUser = async (
   userName: string,
   passwordHash: string,
-  birthDate: number,
+  birthDate: string,
   email: string,
 ) => {
   const [user] = await sql<User[]>`

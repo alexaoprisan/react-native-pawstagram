@@ -1,25 +1,27 @@
 import { ExpoResponse } from 'expo-router/server';
 import { z } from 'zod';
-import { createUser, getUserByEmail } from '../../database/users';
+import { createUser, getUserByUsername } from '../../database/users';
 
 type User = {
   id: number;
   userName: string;
   passwordHash: string;
-  birthDate: number;
+  birthDate: string;
   email: string;
 };
 
 const signupSchema = z.object({
+  username: z.string(),
+  passwordHash: z.string().min(8),
+  birthdate: z.string(),
   email: z.string().email(),
-  passwordHash: z.string().min(1),
-  userName: z.string(),
-  birthDate: z.date(),
 });
 
 export async function POST(request: Request) {
   const body = await request.json();
+  console.log(body);
   const result = signupSchema.safeParse(body);
+  console.log(result);
   // const { email, passwordHash, firstName, lastName } = body;
 
   if (!result.success) {
@@ -31,22 +33,22 @@ export async function POST(request: Request) {
     );
   }
 
-  const user = await getUserByEmail(result.data.email);
+  const user = await getUserByUsername(result.data.username);
 
   if (user) {
     return ExpoResponse.json(
       {
-        errors: [{ message: 'Email is already taken' }],
+        errors: [{ message: 'Username is already taken' }],
       },
       { status: 403 },
     );
   }
 
   const newUser = await createUser(
-    result.data.email,
+    result.data.username,
     result.data.passwordHash,
-    result.data.userName,
-    result.data.birthDate,
+    result.data.birthdate,
+    result.data.email,
   );
   console.log(newUser);
   if (!newUser) {

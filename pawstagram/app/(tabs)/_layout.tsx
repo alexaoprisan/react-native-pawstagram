@@ -48,13 +48,13 @@ export default function AppNavigator() {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Main" component={MainNavigator} />
+        <Stack.Screen name="Main" component={Main} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-function MainNavigator() {
+function Main() {
   return (
     <Tab.Navigator initialRouteName={homeName} screenOptions={screenOptions}>
       <Tab.Screen

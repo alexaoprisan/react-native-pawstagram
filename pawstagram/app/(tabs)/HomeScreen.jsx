@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -47,28 +47,29 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
-
-// Sample data of posts
-const postsData = [
-  {
-    id: 1,
-    username: 'user1',
-    picture: 'This is the first picture.',
-    date: '2024-03-16',
-    description: 'Description for the first post.',
-  },
-  {
-    id: 1,
-    username: 'user1',
-    picture: 'This is the second picture.',
-    date: '2024-03-17',
-    description: 'Description for the second post.',
-  },
-  // Add more posts as needed
-];
-
 export default function HomeScreen({ navigation }) {
   const windowWidth = useWindowDimensions().width;
+  const [postsData, setPostsData] = useState([]);
+
+  useEffect(() => {
+    fetchPostsData(); // Fetch posts data when the component mounts
+  }, []);
+
+  // Function to fetch posts data from the server
+  const fetchPostsData = async () => {
+    try {
+      const response = await fetch('/api/posts'); // Replace '/api/posts' with your actual API endpoint
+      if (response.ok) {
+        const data = await response.json();
+        setPostsData(data); // Set the fetched posts data to state
+      } else {
+        throw new Error('Failed to fetch posts data');
+      }
+    } catch (error) {
+      console.error('Error fetching posts data:', error);
+    }
+  };
+
   // Function to render each item in the FlatList
   const renderItem = ({ item }) => (
     <View style={styles.container}>
@@ -77,9 +78,8 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.datestamp}>{item.date}</Text>
       </View>
       <View style={styles.postContainer}>
-        <Text style={styles.description}>{item.picture}</Text>
-
-        {/* Moved inside post container */}
+        <Image source={{ uri: item.imageUrl }} style={styles.postImage} />{' '}
+        {/* Render the image */}
       </View>
       <Text style={styles.description}>{item.description}</Text>
     </View>

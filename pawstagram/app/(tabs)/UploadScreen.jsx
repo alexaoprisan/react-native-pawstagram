@@ -1,5 +1,7 @@
+import { Cloudinary } from '@cloudinary/url-gen';
+import { AdvancedImage, upload } from 'cloudinary-react-native';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
   Image,
@@ -56,40 +58,113 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App() {
-  // Stores the selected image URI
-  const [file, setFile] = useState(null);
-
-  // Stores any error message
-  const [error, setError] = useState(null);
+export default function UploadScreen() {
+  // const path = usePathname();
+  // const emptyScreenImage = require('../../assets/profile.jpg');
+  // const avatarPlaceholderImage = require('../../assets/avatar.jpg');
+  // const [user, setUser] = useState(null);
+  // const [avatar, setAvatar] = useState(avatarPlaceholderImage);
+  const [image, setImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Function to pick an image from
-  //the device's media library
+  // the device's media library
   const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    // console.log('file',result.assets[0].uri)
+    console.log('result:',result);
 
-    if (status !== 'granted') {
-      // If permission is denied, show an alert
-      Alert.alert(
-        'Permission Denied',
-        `Sorry, we need camera
-				roll permission to upload images.`,
-      );
-    } else {
-      // Launch the image library and get
-      // the selected image
-      const result = await ImagePicker.launchImageLibraryAsync();
-
-      if (!result.cancelled) {
-        // If an image is selected (not cancelled),
-        // update the file state variable
-        setFile(result.uri);
-
-        // Clear any previous errors
-        setError(null);
-      }
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      setIsLoading(true);
+      uploadPickedImage(result.assets[0].uri);
     }
   };
+
+  // #endregion
+  // -------------------------------------------
+
+  // -------------------------------------------
+  // #region cloudinary image upload function
+
+  // Create a Cloudinary instance and set your cloud name.
+  const cld = new Cloudinary({
+    cloud: {
+      cloudName: 'dwqot3kc3',
+    },
+    url: {
+      secure: true,
+    },
+  });
+
+  // Cloudinary options config
+  const options = {
+    upload_preset: 'flecsraj',
+    unsigned: true,
+  };
+
+  // image upload function
+  const uploadPickedImage = async (imagePath) => {
+    await upload(cld, {
+      file: imagePath,
+      options: options,
+      callback: (error: any, response: any) => {
+        if (error) {
+          console.log('this',error);
+          setIsLoading(false);
+          return {
+            success: false,
+            error: error,
+          };
+        } else {
+          console.log({
+            success: true,
+            imageUrl: response.url,
+          });
+          storeImageUrl(response.url);
+          // console.log(response.url)
+          return {
+            success: true,
+            imageUrl: response.url,
+          };
+        }
+      },
+    });
+  };
+
+  // #endregion
+  // -------------------------------------------
+
+  // -------------------------------------------
+  // #region store uploaded image URL in database
+
+  const storeImageUrl = async (cloudinaryImageUrl) => {
+    try {
+      const response = await fetch(`${nextHost}/api/users`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          userId: user.id,
+          imageUrl: cloudinaryImageUrl,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        return data.imageUrl; // Return the stored image URL
+      } else {
+        throw new Error('Failed to store image URL');
+      }
+    } catch (error) {
+      console.error('Error storing image URL:', error);
+      return null;
+    }
+  };
+
 
   return (
     <View style={styles.container}>
@@ -102,16 +177,14 @@ export default function App() {
 
       {/* Conditionally render the image
 			or error message */}
-      {file ? (
-        // Display the selected image
-        <View style={styles.imageContainer}>
+
+
+        {/* <View style={styles.imageContainer}>
           <Image source={{ uri: file }} style={styles.image} />
-        </View>
-      ) : (
-        // Display an error message if there's
-        // an error or no image selected
-        <Text style={styles.errorText}>{error}</Text>
-      )}
+        </View> */}
+
+       {/* <Text style={styles.errorText}>{error}</Text> */}
+
     </View>
   );
 }
