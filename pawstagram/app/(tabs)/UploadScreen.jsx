@@ -1,12 +1,15 @@
 import { Cloudinary } from '@cloudinary/url-gen';
 import { AdvancedImage, upload } from 'cloudinary-react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import {
   Alert,
+  handleUpload,
   Image,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -23,7 +26,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#4682B4',
     padding: 10,
     borderRadius: 8,
     marginBottom: 16,
@@ -56,16 +59,26 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 16,
   },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
+  imagePreview: {
+    width: 200,
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
 });
 
 export default function UploadScreen() {
-  // const path = usePathname();
-  // const emptyScreenImage = require('../../assets/profile.jpg');
-  // const avatarPlaceholderImage = require('../../assets/avatar.jpg');
-  // const [user, setUser] = useState(null);
-  // const [avatar, setAvatar] = useState(avatarPlaceholderImage);
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [description, setDescription] = useState('');
 
   // Function to pick an image from
   // the device's media library
@@ -146,11 +159,12 @@ export default function UploadScreen() {
 
   const storeImageUrl = async (cloudinaryImageUrl) => {
     try {
-      const response = await fetch(`${nextHost}/api/users`, {
-        method: 'PUT',
+      const response = await fetch(`/api/posts`, {
+        method: 'POST',
         body: JSON.stringify({
-          userId: user.id,
+          userId: 1,
           imageUrl: cloudinaryImageUrl,
+          imageDescription: description,
         }),
       });
       if (response.ok) {
@@ -165,26 +179,43 @@ export default function UploadScreen() {
     }
   };
 
+  // const handleUpload = async () => {
+  //   if (image) {
+  //     try {
+  //       setIsLoading(true);
+  //       const uploadedImageUrl = await uploadPickedImage(image);
+  //       await storeImageUrl(uploadedImageUrl);
+  //       setIsLoading(false);
+  //       navigation.navigate('HomeScreen'); // Navigate to home screen after successful upload
+  //     } catch (error) {
+  //       console.error('Error uploading image:', error);
+  //       setIsLoading(false);
+  //       // Handle error
+  //     }
+  //   } else {
+  //     // Handle case where no image is selected
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Add your pawtastic image here!</Text>
-
-      {/* Button to choose an image */}
       <TouchableOpacity style={styles.button} onPress={pickImage}>
         <Text style={styles.buttonText}>Choose Image</Text>
       </TouchableOpacity>
-
-      {/* Conditionally render the image
-			or error message */}
-
-
-        {/* <View style={styles.imageContainer}>
-          <Image source={{ uri: file }} style={styles.image} />
-        </View> */}
-
-       {/* <Text style={styles.errorText}>{error}</Text> */}
-
+      {image && (
+        <Image source={{ uri: image }} style={styles.imagePreview} />
+      )}
+      <TextInput
+        style={styles.input}
+        placeholder="Enter image description"
+        value={description}
+        onChangeText={setDescription}
+      />
+      {/* Add any loading indicator if needed */}
+      <TouchableOpacity style={styles.button} onPress={handleUpload}>
+        <Text style={styles.buttonText}>Upload Post</Text>
+      </TouchableOpacity>
     </View>
   );
 }

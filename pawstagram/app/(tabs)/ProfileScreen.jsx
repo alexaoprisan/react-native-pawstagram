@@ -110,9 +110,17 @@ const ProfileScreen = ({ navigation }) => {
 
   // Sample data for profile posts
   const profilePosts = [
-    { id: 1, imageUrl: 'https://via.placeholder.com/200' },
-    { id: 2, imageUrl: 'https://via.placeholder.com/200' },
-    { id: 3, imageUrl: 'https://via.placeholder.com/200' },
+    {
+      id: 1,
+      imageUrl:
+        'https://image.petmd.com/files/styles/978x550/public/2023-09/black-cat-breeds.jpg?w=2048&q=75',
+    },
+    {
+      id: 2,
+      imageUrl:
+        'https://image.petmd.com/files/inline-images/black-cat-breeds-american-shorthair.jpeg?VersionId=FHXiYOmOykNtIdlZ.V5LQC_E8wXzlgyG',
+    },
+    // { id: 3, imageUrl: 'https://via.placeholder.com/200' },
     // Add more posts as needed
   ];
 
@@ -126,13 +134,15 @@ const ProfileScreen = ({ navigation }) => {
       <View style={styles.profileHeader}>
         <TouchableOpacity onPress={() => handleImagePress(true)}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/100' }}
+            source={{
+              uri: 'https://image.petmd.com/files/styles/978x550/public/2023-09/black-cat-breeds.jpg?w=2048&q=75',
+            }}
             style={styles.profileImage}
           />
         </TouchableOpacity>
-        <Text style={styles.username}>Username</Text>
+        <Text style={styles.username}>Tofu2023</Text>
         <Text style={styles.profileDescription}>
-          Profile Description Goes Here
+          5 year old black cat for good luck.
         </Text>
       </View>
 

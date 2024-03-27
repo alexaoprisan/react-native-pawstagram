@@ -3,14 +3,16 @@ import { Sql } from 'postgres';
 const testPosts = [
   {
     user_id: 1,
-    image_url: 'https://example.com/image1.jpg',
-    image_description: 'This is the first image description.',
+    image_url:
+      'https://image.petmd.com/files/styles/978x550/public/2023-09/black-cat-breeds.jpg?w=2048&q=75',
+    image_description: 'Cutiepie.',
     date: new Date(), // Assuming current date and time for simplicity
   },
   {
     user_id: 1,
-    image_url: 'https://example.com/image2.jpg',
-    image_description: 'This is the second image description.',
+    image_url:
+      'https://image.petmd.com/files/inline-images/black-cat-breeds-american-shorthair.jpeg?VersionId=FHXiYOmOykNtIdlZ.V5LQC_E8wXzlgyG',
+    image_description: 'Enjoying a treat',
     date: new Date(), // Assuming current date and time for simplicity
   },
 ];

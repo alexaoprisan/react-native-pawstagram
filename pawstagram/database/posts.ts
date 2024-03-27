@@ -7,8 +7,6 @@ export const getPosts = async () => {
       *
     FROM
       posts
-    WHERE
-      id
         `;
 
   return posts;
@@ -24,5 +22,25 @@ export const gePostsById = async (id: string) => {
       id = ${id}
   `;
 
+  return post;
+};
+
+export const createPost = async (
+  user_id: number,
+  image_url: string,
+  image_description: string | null,
+) => {
+  const [post] = await sql<Post[]>`
+    INSERT INTO
+      posts(user_id, image_url, image_description)
+    VALUES
+      (${user_id}, ${image_url}, ${image_description})
+    RETURNING
+      id,
+      user_id,
+      image_url,
+      image_description,
+      date
+  `;
   return post;
 };

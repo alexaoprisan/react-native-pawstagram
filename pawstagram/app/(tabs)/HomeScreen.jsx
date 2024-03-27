@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   FlatList,
+  Image,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -61,7 +62,8 @@ export default function HomeScreen({ navigation }) {
       const response = await fetch('/api/posts'); // Replace '/api/posts' with your actual API endpoint
       if (response.ok) {
         const data = await response.json();
-        setPostsData(data); // Set the fetched posts data to state
+        console.log(data.showPosts[0]);
+        setPostsData(data.showPosts); // Set the fetched posts data to state
       } else {
         throw new Error('Failed to fetch posts data');
       }
@@ -77,11 +79,12 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.username}>{item.username}</Text>
         <Text style={styles.datestamp}>{item.date}</Text>
       </View>
+
       <View style={styles.postContainer}>
-        <Image source={{ uri: item.imageUrl }} style={styles.postImage} />{' '}
+        <Image source={{ uri: item.imageUrl }} style={styles.postImage} />
         {/* Render the image */}
       </View>
-      <Text style={styles.description}>{item.description}</Text>
+      <Text style={styles.description}>{item.imageDescription}</Text>
     </View>
   );
 
