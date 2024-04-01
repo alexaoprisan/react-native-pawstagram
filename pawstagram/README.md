@@ -16,13 +16,13 @@ Pawstagram is a social media platform designed for pet lovers, where users can s
 
 ### Technologies
 
-Frontend: React Native with TypeScript
+Frontend: React Native with TypeScript </br>
 Backend: Node.js, PostgreSQL, Cloudinary
 
 ### Features
 
-Login or Signup
-User profile
-Feed
-Upload profile image
-Upload image to feed
+Login or Signup</br>
+User profile</br>
+Feed</br>
+Upload profile image</br>
+Upload image to feed</br>
