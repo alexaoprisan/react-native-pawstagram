@@ -6,7 +6,7 @@
 
 Pawstagram is a social media platform designed for pet lovers, where users can share adorable photos of their furry friends. One of the unique features of Pawstagram is its focus on pets, allowing users to connect with fellow animal enthusiasts and share their love for their pets in a fun and interactive way.
 
-![IMG_7467](https://github.com/alexaoprisan/react-native-pawstagram/assets/150178211/a2dfbc67-11e6-4fa3-9e31-71d64847585f)
+![IMG_7467](https://github.com/alexaoprisan/react-native-pawstagram/assets/150178211/a2dfbc67-11e6-4fa3-9e31-71d64847585f =250x250)
 ![IMG_7468](https://github.com/alexaoprisan/react-native-pawstagram/assets/150178211/796000a1-f7c6-4839-bb97-ac99e38ebaef)
 
 </br>
