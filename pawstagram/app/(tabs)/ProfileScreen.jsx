@@ -142,7 +142,7 @@ const ProfileScreen = ({ navigation }) => {
         </TouchableOpacity>
         <Text style={styles.username}>Tofu2023</Text>
         <Text style={styles.profileDescription}>
-          5 year old black cat for good luck.
+          5 year old black cat for good luck. I love playing with my red ball.
         </Text>
       </View>
 
