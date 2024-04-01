@@ -21,7 +21,7 @@ Backend: Node.js, PostgreSQL, Cloudinary
 
 ### Features
 
-Login or Signup</br>
+Signup and Login</br>
 User profile</br>
 Feed</br>
 Upload profile image</br>
