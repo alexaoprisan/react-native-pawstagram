@@ -10,18 +10,22 @@ import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
 import UploadScreen from './UploadScreen';
 
+// Define constant names for tab names
 const homeName = 'Home';
 const uploadName = 'Upload';
 const profileName = 'Profile';
 
+// Create bottom tab navigator and native stack navigator
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+// Define screen options for tab icons and labels
 const screenOptions = ({ route }) => ({
   tabBarIcon: ({ focused, color, size }) => {
     let iconName;
     let iconColor = focused ? '#00CED1' : 'black';
 
+    // Set icon name based on route name
     if (route.name === homeName) {
       iconName = focused ? 'home-outline' : 'home-outline';
     } else if (route.name === uploadName) {
@@ -40,6 +44,7 @@ const screenOptions = ({ route }) => ({
   },
 });
 
+// Define the main navigation container
 export default function AppNavigator() {
   return (
     <NavigationContainer independent={true}>
@@ -54,9 +59,11 @@ export default function AppNavigator() {
   );
 }
 
+// Define the main tab navigator
 function Main() {
   return (
     <Tab.Navigator initialRouteName={homeName} screenOptions={screenOptions}>
+      {/* Home Tab */}
       <Tab.Screen
         name={homeName}
         component={HomeScreen}
@@ -70,6 +77,7 @@ function Main() {
           },
         }}
       />
+      {/* Upload Tab */}
       <Tab.Screen
         name={uploadName}
         component={UploadScreen}
@@ -83,6 +91,7 @@ function Main() {
           },
         }}
       />
+      {/* Profile Tab */}
       <Tab.Screen
         name={profileName}
         component={ProfileScreen}

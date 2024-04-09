@@ -9,8 +9,10 @@ import {
   View,
 } from 'react-native';
 
+// Get screen width using Dimensions
 const { width: screenWidth } = Dimensions.get('window');
 
+// Define styles for the HomeScreen component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -48,6 +50,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+// Define the HomeScreen component
 export default function HomeScreen({ navigation }) {
   const windowWidth = useWindowDimensions().width;
   const [postsData, setPostsData] = useState([]);
